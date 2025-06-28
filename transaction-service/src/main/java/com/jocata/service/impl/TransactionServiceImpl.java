@@ -1,0 +1,65 @@
+package com.jocata.service.impl;
+
+import com.jocata.data.transaction.TransactionDao;
+import com.jocata.datamodel.transaction.entity.Transaction;
+import com.jocata.datamodel.transaction.form.TransactionForm;
+import com.jocata.response.OrderResponseForm;
+import com.jocata.service.OrderAPIService;
+import com.jocata.service.TransactionService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
+
+@Service
+public class TransactionServiceImpl implements TransactionService {
+
+    @Autowired
+    private OrderAPIService orderAPIService;
+
+    @Autowired
+    private TransactionDao transactionDao;
+
+    @Override
+    public TransactionForm processTransaction(TransactionForm form) {
+        BigDecimal txnAmount = new BigDecimal(form.getAmount());
+
+        OrderResponseForm orderResponseForm = orderAPIService.getOrderByOrderId(form.getOrderId());
+        BigDecimal orderAmount = new BigDecimal(orderResponseForm.getTotalAmount());
+        String status = txnAmount.compareTo(orderAmount) >= 0 ? "SUCCESS" : "PENDING";
+        form.setStatus(status);
+        Transaction txn = new Transaction();
+        txn.setOrderId(Long.valueOf(form.getOrderId()));
+        txn.setAmount(txnAmount);
+        txn.setStatus(status);
+        Transaction updated = transactionDao.save(txn);
+
+        if("SUCCESS".equals(status)){
+            String res = orderAPIService.updateOrderStatus(form.getOrderId(),"SUCCESS");
+        }
+
+        form.setId(String.valueOf(updated.getId()));
+        form.setTransactionDate(updated.getTransactionDate().toString());
+        return form;
+
+    }
+    @Override
+    public List<TransactionForm> getTransactionsByOrderId(String orderId) {
+        List<Transaction> transactions = transactionDao.findByOrderId(Long.valueOf(orderId));
+        List<TransactionForm> forms = new ArrayList<>();
+
+        for (Transaction txn : transactions) {
+            TransactionForm form = new TransactionForm();
+            form.setId(String.valueOf(txn.getId()));
+            form.setOrderId(String.valueOf(txn.getOrderId()));
+            form.setAmount(txn.getAmount().toString());
+            form.setStatus(txn.getStatus());
+            form.setTransactionDate(txn.getTransactionDate().toString());
+            forms.add(form);
+        }
+
+        return forms;
+    }
+}
