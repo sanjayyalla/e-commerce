@@ -1,3 +1,4 @@
+drop database inventorydb;
 CREATE DATABASE inventorydb;
 USE inventorydb;
 
@@ -8,7 +9,3 @@ CREATE TABLE inventory (
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 );
-
-
-
-

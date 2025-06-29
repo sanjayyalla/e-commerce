@@ -11,6 +11,7 @@ public class OrderForm {
     private String status;
     private BigDecimal totalAmount;
     private List<OrderItemForm> items;
+    private String message;
 
     public String getOrderId() {
         return orderId;
@@ -60,4 +61,11 @@ public class OrderForm {
         this.items = items;
     }
 
+    public String getMessage() {
+        return message;
+    }
+
+    public void setMessage(String message) {
+        this.message = message;
+    }
 }

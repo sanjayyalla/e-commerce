@@ -10,10 +10,7 @@ import com.jocata.datamodel.order.form.response.OrderForm;
 import com.jocata.datamodel.order.form.response.OrderItemForm;
 import com.jocata.datamodel.product.form.ProductForm;
 import com.jocata.response.OrderResponseForm;
-import com.jocata.service.CouponAPIService;
-import com.jocata.service.InventoryAPIService;
-import com.jocata.service.OrderService;
-import com.jocata.service.ProductAPIService;
+import com.jocata.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -39,9 +36,10 @@ public class OrderServiceImpl implements OrderService {
     private CouponAPIService couponAPIService;
 
     @Override
-    public OrderForm placeOrder(OrderRequestForm form) {
+    public OrderForm placeOrder(String userId, OrderRequestForm form) {
+
         Order order = new Order();
-        order.setUserId(Integer.parseInt(form.getUserId()));
+        order.setUserId(Integer.parseInt(userId));
         order.setShippingAddress(form.getShippingAddress());
 
         BigDecimal totalAmount = BigDecimal.ZERO;
@@ -145,7 +143,7 @@ public class OrderServiceImpl implements OrderService {
             itemForm.setPrice(item.getPrice());
             itemForms.add(itemForm);
         }
-
+        form.setMessage("SUCCESS");
         form.setItems(itemForms);
         return form;
     }
