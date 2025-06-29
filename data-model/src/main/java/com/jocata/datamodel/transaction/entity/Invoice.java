@@ -16,11 +16,14 @@ public class Invoice {
     @Column(name = "transaction_id", nullable = false)
     private Long transactionId;
 
-    @Column(name = "user_id",nullable = false)
+    @Column(name = "user_id", nullable = false)
     private Long userId;
 
     @Column(name = "invoice_date", nullable = false)
     private Timestamp invoiceDate = new Timestamp(System.currentTimeMillis());
+
+    @Column(name = "order_id")
+    private Long orderId;
 
     @Column(nullable = false)
     private BigDecimal amount;
@@ -63,5 +66,13 @@ public class Invoice {
 
     public void setUserId(Long userId) {
         this.userId = userId;
+    }
+
+    public Long getOrderId() {
+        return orderId;
+    }
+
+    public void setOrderId(Long orderId) {
+        this.orderId = orderId;
     }
 }

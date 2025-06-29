@@ -5,6 +5,7 @@ import java.util.List;
 public class OrderRequestForm {
     private String userId;
     private String shippingAddress;
+    private String couponCode;
     private List<ProductQuantity> items;
 
     public String getUserId() {
@@ -29,5 +30,13 @@ public class OrderRequestForm {
 
     public void setItems(List<ProductQuantity> items) {
         this.items = items;
+    }
+
+    public String getCouponCode() {
+        return couponCode;
+    }
+
+    public void setCouponCode(String couponCode) {
+        this.couponCode = couponCode;
     }
 }

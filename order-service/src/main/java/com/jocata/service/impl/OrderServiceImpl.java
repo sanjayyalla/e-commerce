@@ -10,6 +10,7 @@ import com.jocata.datamodel.order.form.response.OrderForm;
 import com.jocata.datamodel.order.form.response.OrderItemForm;
 import com.jocata.datamodel.product.form.ProductForm;
 import com.jocata.response.OrderResponseForm;
+import com.jocata.service.CouponAPIService;
 import com.jocata.service.InventoryAPIService;
 import com.jocata.service.OrderService;
 import com.jocata.service.ProductAPIService;
@@ -17,6 +18,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
+import java.sql.Date;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -31,6 +34,9 @@ public class OrderServiceImpl implements OrderService {
 
     @Autowired
     private InventoryAPIService inventoryService;
+
+    @Autowired
+    private CouponAPIService couponAPIService;
 
     @Override
     public OrderForm placeOrder(OrderRequestForm form) {
@@ -61,6 +67,19 @@ public class OrderServiceImpl implements OrderService {
                 validItems.add(item);
             }
         }
+        System.out.println(totalAmount);
+        BigDecimal discount = BigDecimal.ZERO;
+        if (form.getCouponCode() != null && !form.getCouponCode().isEmpty()) {
+            var coupon = couponAPIService.getCouponByCode(form.getCouponCode());
+            if (coupon != null && Date.valueOf(coupon.getExpirationDate()).toLocalDate().isAfter(java.time.LocalDate.now())) {
+                BigDecimal discountPercent = new BigDecimal(coupon.getDiscountPercentage());
+                discount = totalAmount.multiply(discountPercent).divide(new BigDecimal("100"));
+                totalAmount = totalAmount.subtract(discount);
+            }else{
+                System.out.println("Coupon expired");
+            }
+        }
+        System.out.println(totalAmount);
 
         order.setItems(validItems);
         order.setTotalAmount(totalAmount);

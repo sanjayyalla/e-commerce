@@ -25,6 +25,7 @@ CREATE TABLE billing_info (
 CREATE TABLE invoices (
     id INT AUTO_INCREMENT PRIMARY KEY,
     transaction_id INT NOT NULL,
+    order_id int,
     invoice_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     amount DECIMAL(10, 2) NOT NULL,
     user_id INT NOT NULL,

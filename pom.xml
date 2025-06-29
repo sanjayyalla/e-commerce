@@ -33,6 +33,7 @@
 		<module>order-service</module>
 		<module>transaction-service</module>
         <module>review-rating-service</module>
+        <module>promotion</module>
     </modules>
 	<scm>
 		<connection/>

@@ -75,6 +75,7 @@ public class TransactionServiceImpl implements TransactionService {
             invoice.setTransactionId(Long.valueOf(updated.getId()));
             invoice.setAmount(txnAmount);
             invoice.setUserId(Long.valueOf(orderResponseForm.getUserId()));
+            invoice.setOrderId(Long.valueOf(orderResponseForm.getId()));
             invoiceDao.save(invoice);
 
             BillingInfo billingInfo = new BillingInfo();
