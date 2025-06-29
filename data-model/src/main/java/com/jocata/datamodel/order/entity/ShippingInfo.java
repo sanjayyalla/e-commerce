@@ -1,6 +1,7 @@
 package com.jocata.datamodel.order.entity;
 
 import jakarta.persistence.*;
+
 import java.sql.Timestamp;
 
 @Entity
@@ -22,6 +23,22 @@ public class ShippingInfo {
 
     @Column(name = "shipping_status")
     private String shippingStatus;
+
+    @Column(name = "created_at")
+    private Timestamp createdAt;
+
+    @Column(name = "updated_at")
+    private Timestamp updatedAt;
+
+    @PrePersist
+    protected void onCreate() {
+        this.createdAt = this.updatedAt = new Timestamp(System.currentTimeMillis());
+    }
+
+    @PreUpdate
+    protected void onUpdate() {
+        this.updatedAt = new Timestamp(System.currentTimeMillis());
+    }
 
     public Integer getId() {
         return id;
@@ -61,5 +78,21 @@ public class ShippingInfo {
 
     public void setShippingStatus(String shippingStatus) {
         this.shippingStatus = shippingStatus;
+    }
+
+    public Timestamp getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(Timestamp createdAt) {
+        this.createdAt = createdAt;
+    }
+
+    public Timestamp getUpdatedAt() {
+        return updatedAt;
+    }
+
+    public void setUpdatedAt(Timestamp updatedAt) {
+        this.updatedAt = updatedAt;
     }
 }

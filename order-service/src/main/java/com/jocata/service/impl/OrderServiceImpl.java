@@ -66,15 +66,14 @@ public class OrderServiceImpl implements OrderService {
         order.setTotalAmount(totalAmount);
         order.setStatus("PENDING");
 
-        orderDao.save(order);
+        Order updated = orderDao.save(order);
 
-        return convertToForm(order);
+        return convertToForm(updated);
     }
 
     @Override
     public OrderResponseForm getOrderByOrderId(String orderId) {
         Order order = orderDao.findById(Integer.parseInt(orderId));
-
         return convertOrderToOrderResponseForm(order);
     }
 

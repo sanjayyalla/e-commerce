@@ -15,17 +15,14 @@ public class ShippingInfoDaoImpl implements ShippingInfoDao {
     private EntityManager entityManager;
 
     @Override
-    public ShippingInfo save(ShippingInfo info) {
-        return entityManager.merge(info);
+    public ShippingInfo save(ShippingInfo shippingInfo) {
+        return entityManager.merge(shippingInfo);
     }
 
     @Override
     public ShippingInfo findByOrderId(Integer orderId) {
-        return entityManager
-                .createQuery("FROM ShippingInfo WHERE orderId = :orderId", ShippingInfo.class)
+        return entityManager.createQuery("FROM ShippingInfo WHERE orderId = :orderId", ShippingInfo.class)
                 .setParameter("orderId", orderId)
-                .getResultStream()
-                .findFirst()
-                .orElse(null);
+                .getSingleResult();
     }
 }

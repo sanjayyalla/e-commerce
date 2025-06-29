@@ -1,10 +1,12 @@
 package com.jocata.service.impl;
 
 import com.jocata.data.transaction.TransactionDao;
+import com.jocata.datamodel.order.form.ShippingInfoForm;
 import com.jocata.datamodel.transaction.entity.Transaction;
 import com.jocata.datamodel.transaction.form.TransactionForm;
 import com.jocata.response.OrderResponseForm;
 import com.jocata.service.OrderAPIService;
+import com.jocata.service.ShippingInfoAPIService;
 import com.jocata.service.TransactionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -22,8 +24,26 @@ public class TransactionServiceImpl implements TransactionService {
     @Autowired
     private TransactionDao transactionDao;
 
+    @Autowired
+    private ShippingInfoAPIService shippingInfoAPIService;
+
     @Override
     public TransactionForm processTransaction(TransactionForm form) {
+
+        Long orderId = Long.valueOf(form.getOrderId());
+
+        //this function is to check whether there is previously success transaction for the order id
+        List<Transaction> previousTransactions = transactionDao.findByOrderId(orderId);
+        for (Transaction txn : previousTransactions) {
+            if ("SUCCESS".equalsIgnoreCase(txn.getStatus())) {
+                form.setStatus("ALREADY_SUCCESS");
+                form.setId(String.valueOf(txn.getId()));
+                form.setTransactionDate(txn.getTransactionDate().toString());
+                return form;
+            }
+        }
+
+
         BigDecimal txnAmount = new BigDecimal(form.getAmount());
 
         OrderResponseForm orderResponseForm = orderAPIService.getOrderByOrderId(form.getOrderId());
@@ -38,6 +58,7 @@ public class TransactionServiceImpl implements TransactionService {
 
         if("SUCCESS".equals(status)){
             String res = orderAPIService.updateOrderStatus(form.getOrderId(),"SUCCESS");
+            ShippingInfoForm shippingInfoForm = shippingInfoAPIService.createShippingInfo(orderResponseForm.getId());
         }
 
         form.setId(String.valueOf(updated.getId()));
