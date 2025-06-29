@@ -50,15 +50,15 @@ public class UserController {
         }
     }
 
-    @PostMapping("/all")
-    public List<UserForm> getAllUsers() {
-        return userService.getAllUsers();
+    @GetMapping("/all")
+    public List<UserForm> getAllUsers(@RequestParam String  username,@RequestParam String password) {
+        return userService.getAllUsers(username,password);
     }
 
-    @DeleteMapping("/delete/{id}")
-    public String deleteUser(@PathVariable String id) {
-        if (id != null && !id.isEmpty()) {
-            return userService.deleteUser(id);
+    @DeleteMapping("/delete")
+    public String deleteUser(@RequestParam String username,@RequestParam String password, @RequestParam String userId) {
+        if (userId != null && !userId.isEmpty() && username!=null && !username.isEmpty() && password!=null && !password.isEmpty()) {
+            return userService.deleteUser(username,password,userId);
         }
         return "Provide user id to delete";
     }
@@ -66,7 +66,14 @@ public class UserController {
     @GetMapping("/login")
     public UserForm login(@RequestParam String username, @RequestParam String password) {
         if (username != null && !username.isEmpty() && password != null && !password.isEmpty()) {
-            return userService.authenticateUser(username, password);
+            UserForm userForm =  userService.authenticateUser(username, password);
+            if(userForm!=null){
+                return userForm;
+            }else{
+                UserForm response = new UserForm();
+                response.setMessage("No user found with the given credentials");
+                return response;
+            }
         } else {
             UserForm response = new UserForm();
             response.setMessage("Username and password must be provided");

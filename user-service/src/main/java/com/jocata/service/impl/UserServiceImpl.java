@@ -14,6 +14,7 @@ import com.jocata.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -93,7 +94,7 @@ public class UserServiceImpl implements UserService {
             form.setAddressForm(addressForm);
         }
 
-        if(user.getRole()!=null){
+        if (user.getRole() != null) {
             RoleForm roleForm = new RoleForm();
             roleForm.setId(String.valueOf(user.getRole().getId()));
             roleForm.setRoleName(user.getRole().getRoleName());
@@ -107,7 +108,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public UserForm getUserById(String id) {
         User user = userDao.findById(Integer.parseInt(id));
-        if(user!=null){
+        if (user != null) {
             UserForm newUserForm = entityToForm(user);
             newUserForm.setMessage("Details successfully fetched");
             return newUserForm;
@@ -116,15 +117,40 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public List<UserForm> getAllUsers() {
-        return userDao.findAll().stream()
-                .map(this::entityToForm)
-                .collect(Collectors.toList());
+    public List<UserForm> getAllUsers(String username, String password) {
+        UserForm userForm = authenticateUser(username, password);
+        if (userForm != null) {
+            if (userForm.getRoleForm().getRoleName().equals("ADMIN")) {
+                return userDao.findAll().stream()
+                        .map(this::entityToForm)
+                        .collect(Collectors.toList());
+            } else {
+                UserForm newUserForm = new UserForm();
+                newUserForm.setMessage("Getting all users is only allowed for admins");
+
+                return List.of(newUserForm);
+            }
+        } else {
+            UserForm newUserForm = new UserForm();
+            newUserForm.setMessage("Invalid credentials");
+
+            return List.of(newUserForm);
+        }
     }
 
     @Override
-    public String deleteUser(String id) {
-        return userDao.deleteById(Integer.parseInt(id));
+    public String deleteUser(String username, String password, String userId) {
+        UserForm userForm = authenticateUser(username, password);
+        if (userForm != null) {
+            if (userForm.getRoleForm().getRoleName().equalsIgnoreCase("ADMIN")) {
+                return userDao.deleteById(Integer.parseInt(userId));
+            } else {
+                return "You are not admin to delete";
+            }
+        } else {
+            return "Credentials mismatch";
+        }
+
     }
 
     @Override
@@ -141,9 +167,7 @@ public class UserServiceImpl implements UserService {
             form.setMessage("LOGIN SUCCESSFUL");
             return form;
         } else {
-            UserForm form = new UserForm();
-            form.setMessage("Invalid username or password");
-            return form;
+            return null;
         }
     }
 }

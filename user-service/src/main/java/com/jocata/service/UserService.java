@@ -10,9 +10,9 @@ public interface UserService {
 
     UserForm getUserById(String id);
 
-    List<UserForm> getAllUsers();
+    List<UserForm> getAllUsers(String username, String password);
 
-    String deleteUser(String id);
+    String deleteUser(String username, String password,String userId);
 
     UserForm getUserByUserName(String userName);
 
