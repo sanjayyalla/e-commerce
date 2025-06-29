@@ -1,7 +1,11 @@
 package com.jocata.service.impl;
 
+import com.jocata.data.transaction.BillingInfoDao;
+import com.jocata.data.transaction.InvoiceDao;
 import com.jocata.data.transaction.TransactionDao;
 import com.jocata.datamodel.order.form.ShippingInfoForm;
+import com.jocata.datamodel.transaction.entity.BillingInfo;
+import com.jocata.datamodel.transaction.entity.Invoice;
 import com.jocata.datamodel.transaction.entity.Transaction;
 import com.jocata.datamodel.transaction.form.TransactionForm;
 import com.jocata.response.OrderResponseForm;
@@ -23,6 +27,12 @@ public class TransactionServiceImpl implements TransactionService {
 
     @Autowired
     private TransactionDao transactionDao;
+
+    @Autowired
+    private InvoiceDao invoiceDao;
+
+    @Autowired
+    private BillingInfoDao billingInfoDao;
 
     @Autowired
     private ShippingInfoAPIService shippingInfoAPIService;
@@ -59,6 +69,20 @@ public class TransactionServiceImpl implements TransactionService {
         if("SUCCESS".equals(status)){
             String res = orderAPIService.updateOrderStatus(form.getOrderId(),"SUCCESS");
             ShippingInfoForm shippingInfoForm = shippingInfoAPIService.createShippingInfo(orderResponseForm.getId());
+
+            //when the transaction is success then
+            Invoice invoice = new Invoice();
+            invoice.setTransactionId(Long.valueOf(updated.getId()));
+            invoice.setAmount(txnAmount);
+            invoiceDao.save(invoice);
+
+            BillingInfo billingInfo = new BillingInfo();
+            billingInfo.setUserId(Long.valueOf(orderResponseForm.getUserId()));
+            billingInfo.setCardNumber(form.getCardNumber());
+            billingInfo.setExpirationDate(form.getExpiryDate());
+            billingInfo.setBillingAddress(orderResponseForm.getShippingAddress());
+            billingInfoDao.save(billingInfo);
+
         }
 
         form.setId(String.valueOf(updated.getId()));

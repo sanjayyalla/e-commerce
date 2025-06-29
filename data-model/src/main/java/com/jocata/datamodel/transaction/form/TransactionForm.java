@@ -7,6 +7,8 @@ public class TransactionForm {
     private String amount;
     private String status;
     private String transactionDate;
+    private String cardNumber;
+    private String expiryDate;
 
     public String getId() {
         return id;
@@ -46,5 +48,21 @@ public class TransactionForm {
 
     public void setTransactionDate(String transactionDate) {
         this.transactionDate = transactionDate;
+    }
+
+    public String getCardNumber() {
+        return cardNumber;
+    }
+
+    public void setCardNumber(String cardNumber) {
+        this.cardNumber = cardNumber;
+    }
+
+    public String getExpiryDate() {
+        return expiryDate;
+    }
+
+    public void setExpiryDate(String expiryDate) {
+        this.expiryDate = expiryDate;
     }
 }
