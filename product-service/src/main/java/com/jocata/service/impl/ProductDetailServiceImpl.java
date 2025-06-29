@@ -54,7 +54,7 @@ public class ProductDetailServiceImpl implements ProductDetailService {
         form.setWeight(detail.getWeight() != null ? detail.getWeight().toString() : null);
         form.setColor(detail.getColor());
         form.setDimensions(detail.getDimensions());
-        form.setCreatedAt(detail.getCreatedAt() != null ? detail.getCreatedAt().toString() : null);
+        form.setMessage("SUCCESS");
         return form;
     }
 }

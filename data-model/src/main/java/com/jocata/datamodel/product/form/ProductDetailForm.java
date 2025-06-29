@@ -7,7 +7,8 @@ public class ProductDetailForm {
     private String weight;
     private String dimensions;
     private String color;
-    private String createdAt;
+//    private String createdAt;
+    private String message;
 
     public String getId() {
         return id;
@@ -49,11 +50,11 @@ public class ProductDetailForm {
         this.color = color;
     }
 
-    public String getCreatedAt() {
-        return createdAt;
+    public String getMessage() {
+        return message;
     }
 
-    public void setCreatedAt(String createdAt) {
-        this.createdAt = createdAt;
+    public void setMessage(String message) {
+        this.message = message;
     }
 }
