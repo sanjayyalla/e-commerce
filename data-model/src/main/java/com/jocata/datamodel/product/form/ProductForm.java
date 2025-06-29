@@ -8,6 +8,7 @@ public class ProductForm {
     private String name;
     private String description;
     private String price;
+    private String message;
 
     private List<String> categoryNames;
     private List<String> tagNames;
@@ -79,5 +80,13 @@ public class ProductForm {
 
     public void setTagIds(List<String> tagIds) {
         this.tagIds = tagIds;
+    }
+
+    public String getMessage() {
+        return message;
+    }
+
+    public void setMessage(String message) {
+        this.message = message;
     }
 }

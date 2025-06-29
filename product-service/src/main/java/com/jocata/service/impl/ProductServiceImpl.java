@@ -107,7 +107,7 @@ public class ProductServiceImpl implements ProductService {
         }
         form.setTagIds(tagIds);
         form.setTagNames(tagNames);
-
+        form.setMessage("SUCCESS");
         return form;
     }
 }

@@ -38,8 +38,10 @@ public class ProductDaoImpl implements ProductDao {
         Product p = findById(id);
         if (p != null){
             entityManager.remove(p);
+            return "Deleted";
         }
-        return "Deleted";
+        return "No Product found with the id";
+
     }
 
     @Override
