@@ -41,7 +41,20 @@ public class UserDaoImpl implements UserDao {
     @Override
     public String deleteById(Integer id) {
         User u = findById(id);
-        if (u != null) entityManager.remove(u);
-        return "Deleted";
+        if (u != null) {
+            entityManager.remove(u);
+            return "Deleted";
+        }
+        return "User with the provided ID not found";
+
+    }
+
+    @Override
+    public User findByUsernameAndPassword(String username, String password) {
+        return entityManager.createQuery(
+                        "SELECT u FROM User u WHERE u.username = :username AND u.password = :password", User.class)
+                .setParameter("username", username)
+                .setParameter("password", password)
+                .getResultStream().findFirst().orElse(null);
     }
 }

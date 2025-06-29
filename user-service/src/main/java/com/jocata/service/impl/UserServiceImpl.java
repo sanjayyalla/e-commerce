@@ -7,6 +7,7 @@ import com.jocata.datamodel.user.entity.Role;
 import com.jocata.datamodel.user.entity.User;
 import com.jocata.datamodel.user.entity.UserAddress;
 import com.jocata.datamodel.user.entity.UserRole;
+import com.jocata.datamodel.user.form.RoleForm;
 import com.jocata.datamodel.user.form.UserAddressForm;
 import com.jocata.datamodel.user.form.UserForm;
 import com.jocata.service.UserService;
@@ -31,9 +32,18 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserForm createUser(UserForm form) {
+
+        if (userDao.findByUsername(form.getUsername()) != null) {
+            UserForm userForm = new UserForm();
+            userForm.setMessage("User Already found cannot create user with this username");
+            return userForm;
+        }
         Role role = roleDao.findById(Integer.parseInt(form.getRoleId()));
         if (role == null) {
-            throw new IllegalArgumentException("Invalid role ID");
+//            throw new IllegalArgumentException("Invalid role ID");
+            UserForm userForm = new UserForm();
+            userForm.setMessage("Invalid role for the user");
+            return userForm;
         }
 
         User user = new User();
@@ -59,7 +69,9 @@ public class UserServiceImpl implements UserService {
         userRole.setRole(role);
         userRoleDao.save(userRole);
 
-        return entityToForm(savedUser);
+        UserForm newUserForm = entityToForm(savedUser);
+        newUserForm.setMessage("USER SUCCESSFULLY ADDED");
+        return newUserForm;
     }
 
     private UserForm entityToForm(User user) {
@@ -68,8 +80,6 @@ public class UserServiceImpl implements UserService {
         form.setUsername(user.getUsername());
         form.setPassword(user.getPassword());
         form.setEmail(user.getEmail());
-        form.setCreatedAt(user.getCreatedAt() != null ? user.getCreatedAt().toString() : null);
-        form.setUpdatedAt(user.getUpdatedAt() != null ? user.getUpdatedAt().toString() : null);
         form.setRoleId(user.getRole() != null ? String.valueOf(user.getRole().getId()) : null);
 
         if (user.getAddress() != null) {
@@ -80,17 +90,29 @@ public class UserServiceImpl implements UserService {
             addressForm.setCity(addr.getCity());
             addressForm.setPostalCode(addr.getPostalCode());
             addressForm.setCountry(addr.getCountry());
-            addressForm.setCreatedAt(addr.getCreatedAt() != null ? addr.getCreatedAt().toString() : null);
-            addressForm.setUpdatedAt(addr.getUpdatedAt() != null ? addr.getUpdatedAt().toString() : null);
             form.setAddressForm(addressForm);
+        }
+
+        if(user.getRole()!=null){
+            RoleForm roleForm = new RoleForm();
+            roleForm.setId(String.valueOf(user.getRole().getId()));
+            roleForm.setRoleName(user.getRole().getRoleName());
+
+            form.setRoleForm(roleForm);
         }
 
         return form;
     }
+
     @Override
     public UserForm getUserById(String id) {
         User user = userDao.findById(Integer.parseInt(id));
-        return user != null ? entityToForm(user) : null;
+        if(user!=null){
+            UserForm newUserForm = entityToForm(user);
+            newUserForm.setMessage("Details successfully fetched");
+            return newUserForm;
+        }
+        return null;
     }
 
     @Override
@@ -103,5 +125,25 @@ public class UserServiceImpl implements UserService {
     @Override
     public String deleteUser(String id) {
         return userDao.deleteById(Integer.parseInt(id));
+    }
+
+    @Override
+    public UserForm getUserByUserName(String userName) {
+        User user = userDao.findByUsername(userName);
+        return user != null ? entityToForm(user) : null;
+    }
+
+    @Override
+    public UserForm authenticateUser(String username, String password) {
+        User user = userDao.findByUsernameAndPassword(username, password);
+        if (user != null) {
+            UserForm form = entityToForm(user);
+            form.setMessage("LOGIN SUCCESSFUL");
+            return form;
+        } else {
+            UserForm form = new UserForm();
+            form.setMessage("Invalid username or password");
+            return form;
+        }
     }
 }

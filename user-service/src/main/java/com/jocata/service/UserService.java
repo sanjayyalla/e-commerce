@@ -14,4 +14,7 @@ public interface UserService {
 
     String deleteUser(String id);
 
+    UserForm getUserByUserName(String userName);
+
+    UserForm authenticateUser(String username, String password);
 }

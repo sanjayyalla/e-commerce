@@ -8,9 +8,11 @@ public class UserForm {
     private String username;
     private String password;
     private String email;
-    private String createdAt;
-    private String updatedAt;
+//    private String createdAt;
+//    private String updatedAt;
     private UserAddressForm addressForm;
+    private String message;
+    private RoleForm roleForm;
 
 //    private PermissionForm permissionForm;
     private String roleId;
@@ -71,20 +73,35 @@ public class UserForm {
         this.email = email;
     }
 
-    public String getCreatedAt() {
-        return createdAt;
+    public RoleForm getRoleForm() {
+        return roleForm;
     }
 
-    public void setCreatedAt(String createdAt) {
-        this.createdAt = createdAt;
+    public void setRoleForm(RoleForm roleForm) {
+        this.roleForm = roleForm;
+    }
+    //    public String getCreatedAt() {
+//        return createdAt;
+//    }
+//
+//    public void setCreatedAt(String createdAt) {
+//        this.createdAt = createdAt;
+//    }
+//
+//    public String getUpdatedAt() {
+//        return updatedAt;
+//    }
+//
+//    public void setUpdatedAt(String updatedAt) {
+//        this.updatedAt = updatedAt;
+//    }
+
+    public String getMessage() {
+        return message;
     }
 
-    public String getUpdatedAt() {
-        return updatedAt;
-    }
-
-    public void setUpdatedAt(String updatedAt) {
-        this.updatedAt = updatedAt;
+    public void setMessage(String message) {
+        this.message = message;
     }
 }
 
