@@ -16,6 +16,9 @@ public class Invoice {
     @Column(name = "transaction_id", nullable = false)
     private Long transactionId;
 
+    @Column(name = "user_id",nullable = false)
+    private Long userId;
+
     @Column(name = "invoice_date", nullable = false)
     private Timestamp invoiceDate = new Timestamp(System.currentTimeMillis());
 
@@ -52,5 +55,13 @@ public class Invoice {
 
     public void setAmount(BigDecimal amount) {
         this.amount = amount;
+    }
+
+    public Long getUserId() {
+        return userId;
+    }
+
+    public void setUserId(Long userId) {
+        this.userId = userId;
     }
 }

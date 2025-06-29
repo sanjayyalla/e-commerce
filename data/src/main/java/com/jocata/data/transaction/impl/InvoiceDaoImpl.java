@@ -7,6 +7,8 @@ import jakarta.persistence.PersistenceContext;
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 @Repository
 @Transactional
 public class InvoiceDaoImpl implements InvoiceDao {
@@ -18,4 +20,13 @@ public class InvoiceDaoImpl implements InvoiceDao {
         entityManager.persist(invoice);
         return invoice;
     }
+
+    @Override
+    public List<Invoice> findByUserId(Long userId) {
+        return entityManager.createQuery(
+                        "SELECT i FROM Invoice i WHERE i.userId = :userId", Invoice.class)
+                .setParameter("userId", userId)
+                .getResultList();
+    }
+
 }

@@ -16,6 +16,9 @@ public class BillingInfo {
     @Column(name = "user_id", nullable = false)
     private Long userId;
 
+    @Column(name = "order_id",nullable = false)
+    private Long orderId;
+
     @Column(name = "card_number", nullable = false)
     private String cardNumber;
 
@@ -74,5 +77,13 @@ public class BillingInfo {
 
     public void setCreatedAt(Timestamp createdAt) {
         this.createdAt = createdAt;
+    }
+
+    public Long getOrderId() {
+        return orderId;
+    }
+
+    public void setOrderId(Long orderId) {
+        this.orderId = orderId;
     }
 }
