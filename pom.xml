@@ -32,7 +32,8 @@
 		<module>inventory-service</module>
 		<module>order-service</module>
 		<module>transaction-service</module>
-	</modules>
+        <module>review-rating-service</module>
+    </modules>
 	<scm>
 		<connection/>
 		<developerConnection/>
