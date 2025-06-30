@@ -17,4 +17,10 @@ public class UserAPIServiceImpl implements UserAPIService {
         String url = "http://localhost:8080/user-service/api/users/login?username="+username+"&password="+password;
         return restTemplate.getForObject(url, UserForm.class);
     }
+
+    @Override
+    public UserForm getUser(String id) {
+        String url = "http://localhost:8080/user-service/api/users/"+id;
+        return restTemplate.getForObject(url,UserForm.class);
+    }
 }
