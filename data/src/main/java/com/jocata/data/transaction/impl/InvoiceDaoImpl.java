@@ -29,4 +29,12 @@ public class InvoiceDaoImpl implements InvoiceDao {
                 .getResultList();
     }
 
+    @Override
+    public Invoice findByOrderId(Long orderId) {
+        return entityManager.createQuery(
+                        "SELECT i FROM Invoice i WHERE i.orderId = :orderId", Invoice.class)
+                .setParameter("orderId", orderId)
+                .getResultStream().findFirst().orElse(null);
+    }
+
 }

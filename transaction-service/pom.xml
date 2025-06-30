@@ -52,6 +52,12 @@
         </dependency>
 
         <dependency>
+            <groupId>com.itextpdf</groupId>
+            <artifactId>itextpdf</artifactId>
+            <version>5.5.13.4</version>
+        </dependency>
+
+        <dependency>
             <groupId>com.jocata</groupId>
             <artifactId>common</artifactId>
             <version>0.0.1-SNAPSHOT</version>

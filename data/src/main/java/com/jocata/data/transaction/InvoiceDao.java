@@ -9,4 +9,6 @@ public interface InvoiceDao {
     Invoice save(Invoice invoice);
 
     List<Invoice> findByUserId(Long userId);
+
+    Invoice findByOrderId(Long orderId);
 }

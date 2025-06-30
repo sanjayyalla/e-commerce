@@ -7,6 +7,7 @@ public class InvoiceForm {
     private String userId;
     private String invoiceDate;
     private String amount;
+    private String orderId;
 
     public String getId() {
         return id;
@@ -46,5 +47,13 @@ public class InvoiceForm {
 
     public void setAmount(String amount) {
         this.amount = amount;
+    }
+
+    public String getOrderId() {
+        return orderId;
+    }
+
+    public void setOrderId(String orderId) {
+        this.orderId = orderId;
     }
 }
