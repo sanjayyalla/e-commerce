@@ -1,7 +1,7 @@
-package com.jocata.service.impl;
+package com.jocata.api.impl;
 
+import com.jocata.api.InventoryAPIService;
 import com.jocata.datamodel.inventory.form.InventoryForm;
-import com.jocata.service.InventoryAPIService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;

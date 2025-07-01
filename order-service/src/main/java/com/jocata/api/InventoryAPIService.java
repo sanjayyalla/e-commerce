@@ -1,7 +1,6 @@
-package com.jocata.service;
+package com.jocata.api;
 
 import com.jocata.datamodel.inventory.form.InventoryForm;
-import org.springframework.web.bind.annotation.RequestParam;
 
 public interface InventoryAPIService {
 

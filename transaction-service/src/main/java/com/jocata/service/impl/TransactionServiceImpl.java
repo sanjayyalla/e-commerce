@@ -10,7 +10,7 @@ import com.jocata.datamodel.transaction.entity.Transaction;
 import com.jocata.datamodel.transaction.form.TransactionForm;
 import com.jocata.response.OrderResponseForm;
 import com.jocata.service.OrderAPIService;
-import com.jocata.service.ShippingInfoAPIService;
+import com.jocata.api.ShippingInfoAPIService;
 import com.jocata.service.TransactionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -67,7 +67,7 @@ public class TransactionServiceImpl implements TransactionService {
         Transaction updated = transactionDao.save(txn);
 
         if("SUCCESS".equals(status)){
-            String res = orderAPIService.updateOrderStatus(form.getOrderId(),"SUCCESS");
+            String res = orderAPIService.updateOrderStatus(form.getOrderId(),"ORDER PLACED");
             ShippingInfoForm shippingInfoForm = shippingInfoAPIService.createShippingInfo(orderResponseForm.getId());
 
             //when the transaction is success then

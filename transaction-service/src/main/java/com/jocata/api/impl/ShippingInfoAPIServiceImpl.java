@@ -1,8 +1,8 @@
-package com.jocata.service.impl;
+package com.jocata.api.impl;
 
+import com.jocata.api.ShippingInfoAPIService;
 import com.jocata.datamodel.order.form.ShippingInfoForm;
 import com.jocata.datamodel.order.form.ShippingInfoUpdateForm;
-import com.jocata.service.ShippingInfoAPIService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;

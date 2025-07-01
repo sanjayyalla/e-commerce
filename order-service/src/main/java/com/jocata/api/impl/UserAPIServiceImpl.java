@@ -1,7 +1,7 @@
-package com.jocata.service.impl;
+package com.jocata.api.impl;
 
+import com.jocata.api.UserAPIService;
 import com.jocata.datamodel.user.form.UserForm;
-import com.jocata.service.UserAPIService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;

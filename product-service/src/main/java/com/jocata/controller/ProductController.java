@@ -1,9 +1,9 @@
 package com.jocata.controller;
 
+import com.jocata.api.UserAPIService;
 import com.jocata.datamodel.product.form.ProductForm;
 import com.jocata.datamodel.user.form.UserForm;
 import com.jocata.service.ProductService;
-import com.jocata.service.UserAPIService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 

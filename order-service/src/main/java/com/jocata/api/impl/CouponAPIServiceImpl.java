@@ -1,7 +1,7 @@
-package com.jocata.service.impl;
+package com.jocata.api.impl;
 
+import com.jocata.api.CouponAPIService;
 import com.jocata.datamodel.promotion.form.CouponForm;
-import com.jocata.service.CouponAPIService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;

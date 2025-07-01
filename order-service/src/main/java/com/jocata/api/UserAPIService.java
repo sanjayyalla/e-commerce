@@ -1,4 +1,4 @@
-package com.jocata.service;
+package com.jocata.api;
 
 import com.jocata.datamodel.user.form.UserForm;
 
